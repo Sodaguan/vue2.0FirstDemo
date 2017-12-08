@@ -18,7 +18,7 @@
         <h2>最新消息</h2>
         <ul>
           <li v-for="item in newsList">
-            <a :href="item.url">{{item.name}}</a>
+            <a :href="item.url">{{item.title}}</a>
           </li>
         </ul>
       </div>
@@ -41,28 +41,22 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
+    created: function () {
+      axios.get('/api/newsList')
+        .then((res) => {
+          console.log(res)
+          this.newsList = res.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     data () {
       return {
-        newsList: [
-          {
-            name: '数据统计',
-            url: 'http://starcraft.com'
-          },
-          {
-            name: '数据预测',
-            url: 'http://warcraft.com'
-          },
-          {
-            name: '流量分析',
-            url: 'http://overwatch.com',
-            hot: true
-          },
-          {
-            name: '广告发布',
-            url: 'http://hearstone.com'
-          }
-        ],
+        newsList: [],
         productList: {
           pc: {
             title: 'PC产品',

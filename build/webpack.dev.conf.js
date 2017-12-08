@@ -7,21 +7,29 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+//添加模拟数据
+const express = require('express')
+const app = express()
+const appData = require('../data.json')//加载本地数据文件
+//获取对应的本地数据
+const newsList = appData.getNewsList
+const apiRoutes = express.Router()
+app.use('/api', apiRoutes)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
+    rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap, usePostCSS: true})
   },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
-  
+
   // these devServer options should be customized in /config/index.js
   devServer: {
     clientLogLevel: 'warning',
     historyApiFallback: true,
     hot: true,
-    host: process.env.HOST || config.dev.host,
-    port: process.env.PORT || config.dev.port,
+    host: process.env.HOST || config.dev.host,
+    port: process.env.PORT || config.dev.port,
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay ? {
       warnings: false,
@@ -32,12 +40,18 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    before (app) {
+      app.get('/api/newsList', (req, res) => {
+        res.json(newsList)
+        //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
+      })
     }
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
-    }), 
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
@@ -67,8 +81,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${config.dev.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }))
 
       resolve(devWebpackConfig)
