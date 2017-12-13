@@ -8,11 +8,11 @@
     </div>
 
     <ul class="slide-pages">
-      <li>&lt;</li>
+      <li @click="gotoIndex(prevIndex)">&lt;</li>
       <li v-for="(item, index) in sliders" @click="gotoIndex(index)">
         <span>{{index + 1}}</span>
       </li>
-      <li>&gt;</li>
+      <li @click="gotoIndex(nextIndex)">&gt;</li>
     </ul>
   </div>
 </template>
@@ -27,6 +27,22 @@
     data () {
       return {
         nowIndex: 0
+      }
+    },
+    computed: {
+      prevIndex () {
+        if (this.nowIndex === 0) {
+          return this.sliders.length - 1
+        } else {
+          return this.nowIndex - 1
+        }
+      },
+      nextIndex () {
+        if (this.nowIndex === this.sliders.length - 1) {
+          return 0
+        } else {
+          return this.nowIndex + 1
+        }
       }
     },
     methods: {
