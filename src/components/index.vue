@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="index-right">
-      <slider-vue :sliders="sliders"></slider-vue>
+      <slider-vue :sliders="sliders" :sliderSpeed="sliderSpeed" @onchange="sliderEmit"></slider-vue>
       <div class="index-board-list">
         <div class="index-board-item" v-for="(item,index) in boardList"
              :class="[{'line-last':index%2 != 0},'index-board-'+item.id]">
@@ -160,11 +160,17 @@
             title: 'xxx4',
             href: 'detail/forecast'
           }
-        ]
+        ],
+        sliderSpeed: 2000
       }
     },
     components: {
       sliderVue
+    },
+    methods: {
+      sliderEmit () {
+        console.log(123)
+      }
     }
   }
 </script>
