@@ -1,15 +1,28 @@
 <template>
   <div class="app-foot">
-    <p>© 2016 fishenal MIT</p>
+    <p>{{msg}}</p>
   </div>
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     data () {
       return {
-        msg: ''
+        msg: '© 2016 fishenal MIT'
       }
+    },
+    created: function () {
+      axios.post('/loginUser', 'username=admin&password=meritco&language=English')
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          if (err) {
+            console.log(err)
+          }
+        })
     }
   }
 </script>

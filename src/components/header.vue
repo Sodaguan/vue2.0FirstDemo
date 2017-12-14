@@ -4,22 +4,52 @@
       <img src="../assets/overwatch.png" alt="" class="head-logo">
       <div class="head-nav">
         <ul class="nav-list">
-          <li>登录</li>
+          <li @click="logClick">登录</li>
           <li>丨</li>
-          <li>注册</li>
+          <li @click="regClick">注册</li>
           <li>丨</li>
-          <li>关于</li>
+          <li @click="aboutClick">关于</li>
         </ul>
       </div>
     </div>
+    <mydialog :isShow="isLogshow" @onclose="closeDialog('isLogshow')">
+      <p>slot log</p>
+    </mydialog>
+    <mydialog :isShow="isRegshow" @onclose="closeDialog('isRegshow')">
+      <p>slot reg</p>
+    </mydialog>
+    <mydialog :isShow="isAboutshow" @onclose="closeDialog('isAboutshow')">
+      <p>slot about</p>
+    </mydialog>
   </div>
 </template>
 
 <script>
+  import mydialog from './dialog'
+
   export default {
     data () {
       return {
-        msg: 'Header'
+        isLogshow: false,
+        isRegshow: false,
+        isAboutshow: false
+      }
+    },
+    components: {
+      mydialog
+    },
+    methods: {
+      logClick () {
+        this.isLogshow = true
+      },
+      regClick () {
+        this.isRegshow = true
+      },
+      aboutClick () {
+        this.isAboutshow = true
+      },
+      closeDialog (attr) {
+        this[attr] = false
       }
     }
   }

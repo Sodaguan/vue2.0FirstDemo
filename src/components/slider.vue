@@ -29,6 +29,7 @@
         default: []
       },
       sliderSpeed: {
+        type: Number,
         default: 1000
       }
     },
