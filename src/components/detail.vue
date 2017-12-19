@@ -4,13 +4,14 @@
       <div class="product-board">
         <img :src="productIcon">
         <ul>
-          <li v-for="item in products">{{item.name}}</li>
+          <!--<li v-for="item in products">{{item.name}}</li>-->
+          <router-link tag="li" v-for="(item,index) in products" :key="index" :to="{path:item.path}" active-class="active">{{item.name}}</router-link>
         </ul>
       </div>
     </div>
     <div class="detail-right">
       <keep-alive>
-        <router-view></router-view>
+        <router-view/>
       </keep-alive>
     </div>
   </div>
@@ -42,7 +43,19 @@
             path: 'publish',
             active: false
           }
-        ]
+        ],
+        imgMap: {
+          '/detail/count': require('../assets/images/1.png'),
+          '/detail/forecast': require('../assets/images/2.png'),
+          '/detail/analysis': require('../assets/images/3.png'),
+          '/detail/publish': require('../assets/images/4.png')
+        }
+      }
+    },
+    computed: {
+      productIcon () {
+        console.log(this.$route.path)
+        return this.imgMap[this.$route.path]
       }
     }
   }

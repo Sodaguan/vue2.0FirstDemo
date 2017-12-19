@@ -7,7 +7,7 @@
 <script>
   // import axios from 'axios'
   // import Qs from 'qs'
-  import javatest from '../api/javatest'
+//  import javatest from '../api/javatest'
 
   export default {
     data () {
@@ -59,7 +59,7 @@
       //       console.log(err)
       //     }
       //   })
-      javatest({
+      /* javatest({
         username: 'admin',
         password: 'meritco',
         language: 'English'
@@ -67,7 +67,7 @@
         console.log(res)
       }).catch(err => {
         console.log(err)
-      })
+      }) */
     }
   }
 </script>
