@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Detail from '../components/detail.vue'
 import Index from '../components/index.vue'
+import Detail from '../components/detail.vue'
+import Analysis from '../components/analysis'
 
 Vue.use(Router)
 
@@ -16,7 +17,14 @@ export default new Router({
     {
       path: '/detail',
       name: 'detail',
-      component: Detail
+      component: Detail,
+      redirect: '/datail/analysis',
+      children: [
+        {
+          path: 'analysis',
+          component: Analysis
+        }
+      ]
     }
   ]
 })

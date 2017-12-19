@@ -5,7 +5,9 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  // import axios from 'axios'
+  // import Qs from 'qs'
+  import javatest from '../api/javatest'
 
   export default {
     data () {
@@ -14,15 +16,58 @@
       }
     },
     created: function () {
-      axios.post('/loginUser', 'username=admin&password=meritco&language=English')
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          if (err) {
-            console.log(err)
-          }
-        })
+      // axios.post('/loginUser',
+      //   {
+      //     username: 'admin',
+      //     password: 'meritco',
+      //     language: 'English'
+      //   },
+      //   {
+      //     transformRequest: [function (data) {
+      //       // 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等，这里可以使用开头引入的Qs（这个模块在安装axios的时候就已经安装了，不需要另外安装）
+      //       data = Qs.stringify()
+      //       return data
+      //     }]
+      //   })
+      //   .then((res) => {
+      //     console.log(res)
+      //   })
+      //   .catch((err) => {
+      //     if (err) {
+      //       console.log(err)
+      //     }
+      //   })
+      // axios({
+      //   url: '/loginUser',
+      //   method: 'post',
+      //   data: {
+      //     username: 'admin',
+      //     password: 'meritco',
+      //     language: 'English'
+      //   },
+      //   transformRequest: [function (data) {
+      //     // 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等，这里可以使用开头引入的Qs（这个模块在安装axios的时候就已经安装了，不需要另外安装）
+      //     data = Qs.stringify()
+      //     return data
+      //   }]
+      // })
+      //   .then((res) => {
+      //     console.log(res)
+      //   })
+      //   .catch((err) => {
+      //     if (err) {
+      //       console.log(err)
+      //     }
+      //   })
+      javatest({
+        username: 'admin',
+        password: 'meritco',
+        language: 'English'
+      }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 </script>

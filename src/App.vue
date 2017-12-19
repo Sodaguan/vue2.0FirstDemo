@@ -8,7 +8,6 @@
         <router-view/>
       </keep-alive>
     </div>
-
     <appFooter></appFooter>
   </div>
 </template>

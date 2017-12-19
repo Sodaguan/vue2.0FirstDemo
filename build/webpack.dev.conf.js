@@ -13,6 +13,7 @@ const app = express()
 const appData = require('../data.json')//加载本地数据文件
 //获取对应的本地数据
 const newsList = appData.getNewsList
+const login = appData.login
 const apiRoutes = express.Router()
 app.use('/api', apiRoutes)
 
@@ -45,7 +46,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       app.get('/api/newsList', (req, res) => {
         res.json(newsList)
         //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
-      })
+      }),
+        app.get('/api/login', (req, res) => {
+          res.json(login)
+          //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
+        })
     }
   },
   plugins: [

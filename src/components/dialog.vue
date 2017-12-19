@@ -29,7 +29,7 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="less">
   .drop-enter-active {
     transition: all .5s ease;
   }
