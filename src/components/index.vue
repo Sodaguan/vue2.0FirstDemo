@@ -143,7 +143,7 @@
           {
             src: require('../assets/slideShow/pic1.jpg'),
             title: 'xxx1',
-            href: 'detail/analysis'
+            href: 'detail/count'
           },
           {
             src: require('../assets/slideShow/pic2.jpg'),
@@ -153,7 +153,7 @@
           {
             src: require('../assets/slideShow/pic3.jpg'),
             title: 'xxx3',
-            href: 'http://xxx.xxx.com'
+            href: 'detail/analysis'
           },
           {
             src: require('../assets/slideShow/pic4.jpg'),

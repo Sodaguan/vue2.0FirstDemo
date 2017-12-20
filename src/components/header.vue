@@ -1,7 +1,9 @@
 <template>
   <div class="app-head">
     <div class="app-head-inner">
-      <img src="../assets/overwatch.png" alt="" class="head-logo">
+      <router-link :to="{path:'/'}">
+        <img src="../assets/overwatch.png" alt="" class="head-logo">
+      </router-link>
       <div class="head-nav">
         <ul class="nav-list">
           <li v-if="username === ''" @click="logClick">登录</li>

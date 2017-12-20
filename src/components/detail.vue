@@ -5,7 +5,9 @@
         <img :src="productIcon">
         <ul>
           <!--<li v-for="item in products">{{item.name}}</li>-->
-          <router-link tag="li" v-for="(item,index) in products" :key="index" :to="{path:item.path}" active-class="active">{{item.name}}</router-link>
+          <router-link tag="li" v-for="(item,index) in products" :key="index" :to="{path:item.path}"
+                       active-class="active">{{item.name}}
+          </router-link>
         </ul>
       </div>
     </div>
@@ -31,16 +33,19 @@
           {
             name: '数据预测',
             path: 'forecast',
+            icon: require('../assets/images/2.png'),
             active: false
           },
           {
             name: '流量分析',
             path: 'analysis',
+            icon: require('../assets/images/3.png'),
             active: false
           },
           {
             name: '广告发布',
             path: 'publish',
+            icon: require('../assets/images/4.png'),
             active: false
           }
         ],
