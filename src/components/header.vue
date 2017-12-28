@@ -30,7 +30,7 @@
 </template>
 
 <script>
-  import mydialog from './dialog'
+  import mydialog from './base/dialog'
   import logdialog from './loginfrom'
 
   export default {

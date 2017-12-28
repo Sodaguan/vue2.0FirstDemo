@@ -99,6 +99,24 @@
     margin: 0 auto;
   }
 
+  .hr {
+    height: 1px;
+    width: 100%;
+    background: #ddd;
+  }
+
+  .button {
+    background: #4fc08d;
+    color: #fff;
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  .button:hover {
+    background: #4fc08d;
+  }
+
   .g-form {
 
   }

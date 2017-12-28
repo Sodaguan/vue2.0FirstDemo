@@ -41,6 +41,7 @@
           this.errorText = '用户名或密码不符合规定'
         } else {
           this.errorText = ''
+          // 使用自己封住的axios的get方法
           loginApi({
             username: this.username,
             password: this.password

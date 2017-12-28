@@ -36,7 +36,7 @@
       chosenSelection (index) {
         this.nowIndex = index
         this.isDrop = false
-        this.$emit('onchange', this.nowIndex)
+        this.$emit('onchange', this.selections[this.nowIndex])
       }
     }
   }

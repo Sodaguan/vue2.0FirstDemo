@@ -27,7 +27,7 @@
     methods: {
       chosenSelection (index) {
         this.nowIndex = index
-        this.$emit('onchange', index)
+        this.$emit('onchange', this.selections[index])
       }
     }
   }

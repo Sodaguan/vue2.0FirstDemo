@@ -7,13 +7,15 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
-//添加模拟数据
+//添加模拟数据，依赖express
 const express = require('express')
 const app = express()
-const appData = require('../data.json')//加载本地数据文件
+//加载本地数据文件
+const appData = require('../data.json')
 //获取对应的本地数据
 const newsList = appData.getNewsList
 const login = appData.login
+const getPrice = appData.getPrice
 const apiRoutes = express.Router()
 app.use('/api', apiRoutes)
 
@@ -50,6 +52,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         app.get('/api/login', (req, res) => {
           res.json(login)
           //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
+        }),
+        app.get('/api/getPrice', (req, res) => {
+          res.json(getPrice)
         })
     }
   },

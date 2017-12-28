@@ -1,12 +1,8 @@
 <template>
   <div class="chooser-component">
     <ul class="chooser-list">
-      <li
-        v-for="(item, index) in banks"
-        @click="chooseSelection(index)"
-        :title="item.label"
-        :class="[item.name, {active: index === nowIndex}]"
-      ></li>
+      <li v-for="(item, index) in banks" :title="item.label" :class="[item.name,{active:index===nowIndex}]"
+          @click="chosenSelection(index)"></li>
     </ul>
   </div>
 </template>
@@ -61,16 +57,14 @@
       }
     },
     methods: {
-      chooseSelection (index) {
+      chosenSelection (index) {
         this.nowIndex = index
-        this.$emit('on-change', this.banks[index])
       }
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
   .chooser-component {
     position: relative;
     display: inline-block;
@@ -171,3 +165,4 @@
     background-position: -1320px 0;
   }
 </style>
+

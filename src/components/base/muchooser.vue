@@ -32,7 +32,12 @@
         } else {
           this.nowIndexes.splice(this.nowIndexes.indexOf(index), 1)
         }
-        this.$emit('onchange', this.nowIndexes)
+        let nowObjArr = []
+        for (let i = 0; i < this.nowIndexes.length; i++) {
+          nowObjArr.push(this.selections[i])
+        }
+        // console.log(nowObjArr)
+        this.$emit('onchange', nowObjArr)
       },
       checkActive (index) {
         return this.nowIndexes.indexOf(index) !== -1

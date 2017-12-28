@@ -6,6 +6,7 @@
         是指在获得网站访问量基本数据的情况下对有关数据进行统计、分析，从中发现用户访问网站的规律，并将这些规律与网络营销策略等相结合，从而发现目前网络营销活动中可能存在的问题，并为进一步修正或重新制定网络营销策略提供依据。当然这样的定义是站在网络营销管理的角度来考虑的</p>
     </div>
     <div class="sales-board-form">
+      <!--购买数量-->
       <div class="sales-board-line">
         <div class="sales-board-line-left">
           购买数量：
@@ -14,6 +15,7 @@
           <v-count @onchange="selectionIndex('buyNum', $event)"></v-count>
         </div>
       </div>
+      <!--产品类型-->
       <div class="sales-board-line">
         <div class="sales-board-line-left">
           产品类型：
@@ -22,6 +24,7 @@
           <v-selection :selections="productTypes" @onchange="selectionIndex('product', $event)"></v-selection>
         </div>
       </div>
+      <!--有效时间-->
       <div class="sales-board-line">
         <div class="sales-board-line-left">
           有效时间：
@@ -30,6 +33,7 @@
           <v-chooser :selections="periodList" @onchange="selectionIndex('period',$event)"></v-chooser>
         </div>
       </div>
+      <!--产品版本-->
       <div class="sales-board-line">
         <div class="sales-board-line-left">
           产品版本：
@@ -40,6 +44,7 @@
             @onchange="selectionIndex('versions', $event)"></v-mu-chooser>
         </div>
       </div>
+      <!--总价-->
       <div class="sales-board-line">
         <div class="sales-board-line-left">
           总价：
@@ -48,10 +53,11 @@
           {{ price }} 元
         </div>
       </div>
+      <!--立即购买按钮-->
       <div class="sales-board-line">
         <div class="sales-board-line-left">&nbsp;</div>
         <div class="sales-board-line-right">
-          <div class="button">
+          <div class="button" @click="payShow">
             立即购买
           </div>
         </div>
@@ -78,25 +84,7 @@
       </ul>
     </div>
     <!--<my-dialog :is-show="isShowPayDialog" @on-close="hidePayDialog">
-    <table class="buy-dialog-table">
-    <tr>
-    <th>购买数量</th>
-    <th>产品类型</th>
-    <th>有效时间</th>
-    <th>产品版本</th>
-    <th>总价</th>
-    </tr>
-    <tr>
-    <td>{{ buyNum }}</td>
-    <td>{{ buyType.label }}</td>
-    <td>{{ period.label }}</td>
-    <td>
-    <span v-for="item in versions">{{ item.label }}</span>
-    </td>
-    <td>{{ price }}</td>
-    </tr>
-    </table>
-    <h3 class="buy-dialog-title">请选择银行</h3>
+
     <bank-chooser @on-change="onChangeBanks"></bank-chooser>
     <div class="button buy-dialog-btn" @click="confirmBuy">
     确认购买
@@ -107,33 +95,47 @@
     </my-dialog>
     <check-order :is-show-check-dialog="isShowCheckOrder" :order-id="orderId"
     @on-close-check-dialog="hideCheckOrder"></check-order>-->
+    <mydialog :isShow="isPayShow" @onclose="closePayDialog()">
+      <table class="buy-dialog-table">
+        <tr>
+          <th>购买数量</th>
+          <th>产品类型</th>
+          <th>有效时间</th>
+          <th>产品版本</th>
+          <th>总价</th>
+        </tr>
+        <tr>
+          <td>{{ buyNum }}</td>
+          <td>{{ product.label }}</td>
+          <td>{{ period.label }}</td>
+          <td>
+            <span v-for="item in versions"> {{ item.label }} </span>
+          </td>
+          <td>{{ price }}</td>
+        </tr>
+      </table>
+      <h3 class="buy-dialog-title">请选择银行</h3>
+      <bank-chooser></bank-chooser>
+      <div class="button buy-dialog-btn" @click="confirmBuy">
+        确认购买
+      </div>
+    </mydialog>
   </div>
 </template>
 
 <script>
-  import VSelection from '../../components/selection'
-  import VChooser from '../../components/chooser'
-  import VMuChooser from '../../components/muchooser'
-  import VCount from '../../components/count'
+  import VSelection from '../../components/base/selection'
+  import VChooser from '../../components/base/chooser'
+  import VMuChooser from '../../components/base/muchooser'
+  import VCount from '../../components/base/count'
+  import getPrice from '../../api/analysis'
+  import mydialog from '../../components/base/dialog'
+  import bankChooser from '../../components/bankChooser'
 
   export default {
     data () {
       return {
-        price: 100,
-        versionList: [
-          {
-            label: '客户版',
-            value: 0
-          },
-          {
-            label: '代理商版',
-            value: 1
-          },
-          {
-            label: '专家版',
-            value: 2
-          }
-        ],
+        price: 0,
         productTypes: [
           {
             label: '入门版',
@@ -161,17 +163,67 @@
             label: '三年',
             value: 2
           }
-        ]
+        ],
+        versionList: [
+          {
+            label: '客户版',
+            value: 0
+          },
+          {
+            label: '代理商版',
+            value: 1
+          },
+          {
+            label: '专家版',
+            value: 2
+          }
+        ],
+
+        buyNum: 1,
+        product: {},
+        period: {},
+        versions: [],
+
+        isPayShow: false
       }
     },
     components: {
-      VSelection, VChooser, VMuChooser, VCount
+      VSelection, VChooser, VMuChooser, VCount, mydialog, bankChooser
     },
     methods: {
-      selectionIndex (type, index) {
-        console.log(type, index)
+      selectionIndex (attr, value) {
+        this[attr] = value
+        this.getPrice()
+      },
+      getPrice () {
+        let versionsArr = []
+        for (let i = 0; i < this.versions.length; i++) {
+          versionsArr.push(this.versions[i].value)
+        }
+        console.log(versionsArr)
+        getPrice({
+          buyNumber: this.buyNum,
+          buyType: this.product.value,
+          period: this.period.value,
+          versions: versionsArr.join(',')
+        }).then((res) => {
+          console.log(res)
+          this.price = res.amount
+        })
+      },
+      payShow () {
+        this.isPayShow = true
+      },
+      closePayDialog () {
+        this.isPayShow = false
       }
-
+    },
+    mounted () {
+      this.buyNum = 1
+      this.product = this.productTypes[0]
+      this.period = this.periodList[0]
+      this.versions = [this.versionList[0]]
+      this.getPrice()
     }
   }
 </script>
