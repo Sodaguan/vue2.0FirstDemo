@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '../components/index.vue'
-import Detail from '../components/detail.vue'
-import Count from '../components/count'
-import Forecast from '../components/forecast'
-import Analysis from '../components/analysis.vue'
-import Publish from '../components/publish'
+import Index from '../pages/index'
+import Detail from '../pages/detail'
+import Count from '../pages/detail/count'
+import Forecast from '../pages/detail/forecast'
+import Analysis from '../pages/detail/analysis'
+import Publish from '../pages/detail/publish'
 
 Vue.use(Router)
 

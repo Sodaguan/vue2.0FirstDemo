@@ -43,7 +43,7 @@
 
 <script>
   import axios from 'axios'
-  import sliderVue from './slider.vue'
+  import sliderVue from '../components/slider.vue'
 
   export default {
     created: function () {
