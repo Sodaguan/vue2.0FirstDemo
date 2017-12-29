@@ -1,5 +1,9 @@
-import { get } from './axios'
+import { get, post } from './axios'
 
-export default function getPrice (params) {
+export function getPrice (params) {
   return get('/api/getPrice', params)
+}
+
+export function createOrder (params) {
+  return post('/api/createOrder', params)
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="chooser-component">
     <ul class="chooser-list">
-      <li v-for="(item, index) in banks" :title="item.label" :class="[item.name,{active:index===nowIndex}]"
+      <li v-for="(item, index) in banks" :title="item.label" :class="[item.name, {active:index===nowIndex}]"
           @click="chosenSelection(index)"></li>
     </ul>
   </div>
@@ -59,6 +59,7 @@
     methods: {
       chosenSelection (index) {
         this.nowIndex = index
+        this.$emit('onchange', this.banks[index])
       }
     }
   }

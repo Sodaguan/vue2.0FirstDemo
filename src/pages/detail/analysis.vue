@@ -95,7 +95,7 @@
     </my-dialog>
     <check-order :is-show-check-dialog="isShowCheckOrder" :order-id="orderId"
     @on-close-check-dialog="hideCheckOrder"></check-order>-->
-    <mydialog :isShow="isPayShow" @onclose="closePayDialog()">
+    <mydialog :isShow="isPayShow" @onclose="closePayDialog">
       <table class="buy-dialog-table">
         <tr>
           <th>购买数量</th>
@@ -115,10 +115,14 @@
         </tr>
       </table>
       <h3 class="buy-dialog-title">请选择银行</h3>
-      <bank-chooser></bank-chooser>
+      <bank-chooser @onchange="getBankId"></bank-chooser>
       <div class="button buy-dialog-btn" @click="confirmBuy">
         确认购买
       </div>
+    </mydialog>
+    <check-order :isShowCheckDialog="isShowCheckDialog" @onclose="closeCheckDialog"></check-order>
+    <mydialog :is-show="isShowErrDialog" @onclose="closeErrDialog">
+      支付失败
     </mydialog>
   </div>
 </template>
@@ -128,9 +132,10 @@
   import VChooser from '../../components/base/chooser'
   import VMuChooser from '../../components/base/muchooser'
   import VCount from '../../components/base/count'
-  import getPrice from '../../api/analysis'
+  import { getPrice, createOrder } from '../../api/analysis'
   import mydialog from '../../components/base/dialog'
   import bankChooser from '../../components/bankChooser'
+  import checkOrder from '../../components/checkOrder'
 
   export default {
     data () {
@@ -184,11 +189,15 @@
         period: {},
         versions: [],
 
-        isPayShow: false
+        isPayShow: false,
+        bankId: 201,
+        orderId: 0,
+        isShowCheckDialog: false,
+        isShowErrDialog: false
       }
     },
     components: {
-      VSelection, VChooser, VMuChooser, VCount, mydialog, bankChooser
+      VSelection, VChooser, VMuChooser, VCount, mydialog, bankChooser, checkOrder
     },
     methods: {
       selectionIndex (attr, value) {
@@ -216,6 +225,37 @@
       },
       closePayDialog () {
         this.isPayShow = false
+      },
+      confirmBuy () {
+        let versionsArr = []
+        for (let i = 0; i < this.versions.length; i++) {
+          versionsArr.push(this.versions[i].value)
+        }
+        createOrder({
+          buyNumber: this.buyNum,
+          buyType: this.product.value,
+          period: this.period.value,
+          versions: versionsArr.join(','),
+          bankId: this.bankId
+        }).then((res) => {
+          this.orderId = res.orderId
+          this.isShowCheckDialog = true
+          this.isPayShow = false
+        }).catch((err) => {
+          if (err) {
+            this.isShowErrDialog = true
+            this.isPayShow = false
+          }
+        })
+      },
+      getBankId (bankInfo) {
+        this.bankId = bankInfo.id
+      },
+      closeErrDialog () {
+        this.isShowErrDialog = false
+      },
+      closeCheckDialog () {
+        this.isShowCheckDialog = false
       }
     },
     mounted () {
