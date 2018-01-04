@@ -9,10 +9,10 @@
         支付失败
       </div>
     </mydialog>
-    <mydialog :isShow="isShowSuccessDialog" @onclose="isShowSuccessDialog = false">
+    <mydialog :isShow="isShowSuccessDialog" @onclose="toOrderList">
       购买成功
     </mydialog>
-    <mydialog :isShow="isShowFailDialog" @onclose="isShowFailDialog = false">
+    <mydialog :isShow="isShowFailDialog" @onclose="toOrderList">
       购买失败
     </mydialog>
   </div>
@@ -45,6 +45,10 @@
         // this.isShowCheckDialog = false
         this.$emit('onclose')
         this.isShowSuccessDialog = true
+      },
+      toOrderList () {
+        this.isShowFailDialog = false
+        this.$router.push({path: '/orderList'})
       }
     }
   }

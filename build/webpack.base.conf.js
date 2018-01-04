@@ -23,7 +23,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      '@': resolve('src'),
+      '@': resolve('src')
     }
   },
   module: {
@@ -74,7 +74,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style!css'
+        include: [
+          /src/, // 表示在src目录下的css需要编译
+          '/node_modules/element-ui/lib/'   // 增加此项
+        ],
+        loader: 'style-loader!css-loader'
       },
       {
         test: /\.less$/,

@@ -11,8 +11,9 @@ export function objToStr (obj) {
 export function post (url, params) {
   return new Promise((resolve, reject) => {
     let str = ''
-    console.log(JSON.stringify(params))
+    // console.log(JSON.stringify(params))
     str = objToStr(params)
+    // console.log(str)
     axios.post(url, str)
       .then(response => {
         resolve(response.data)

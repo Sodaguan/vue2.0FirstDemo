@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" @click="resetSelection">
     <!--<router-link to=""></router-link>-->
     <appHeader></appHeader>
     <!--<HelloWorld></HelloWorld>-->
@@ -15,10 +15,16 @@
 <script>
   import appHeader from './components/header.vue'
   import appFooter from './components/footer.vue'
+  import eventBus from './eventBus'
 
   export default {
     name: 'app',
-    components: {appHeader, appFooter}
+    components: {appHeader, appFooter},
+    methods: {
+      resetSelection () {
+        eventBus.$emit('resetSelection')
+      }
+    }
   }
 </script>
 

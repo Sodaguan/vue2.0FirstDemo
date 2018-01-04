@@ -1,5 +1,5 @@
 <template>
-  <div class="index-wrap">
+  <div class="index-wrap" @click="resetSelection">
     <div class="index-left">
       <div class="index-left-block">
         <h2>全部产品</h2>

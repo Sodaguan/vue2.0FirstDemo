@@ -6,6 +6,7 @@ import Count from '../pages/detail/count'
 import Forecast from '../pages/detail/forecast'
 import Analysis from '../pages/detail/analysis'
 import Publish from '../pages/detail/publish'
+import OrderListPage from '../pages/order'
 
 Vue.use(Router)
 
@@ -40,6 +41,10 @@ export default new Router({
           component: Publish
         }
       ]
+    },
+    {
+      path: '/orderList',
+      component: OrderListPage
     }
   ]
 })

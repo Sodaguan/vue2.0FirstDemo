@@ -1,6 +1,6 @@
 <template>
   <div class="selection-component">
-    <div class="selection-show" @click="toggleDrop">
+    <div class="selection-show" @click.stop="toggleDrop">
       <span>{{selections[nowIndex].label}}</span>
       <div class="arrow"></div>
     </div>
@@ -13,6 +13,8 @@
 </template>
 
 <script>
+  import eventBus from '../../eventBus'
+
   export default {
     data () {
       return {
@@ -31,6 +33,7 @@
     },
     methods: {
       toggleDrop () {
+        eventBus.$emit('resetSelection')
         this.isDrop = !this.isDrop
       },
       chosenSelection (index) {
@@ -38,6 +41,11 @@
         this.isDrop = false
         this.$emit('onchange', this.selections[this.nowIndex])
       }
+    },
+    mounted () {
+      eventBus.$on('resetSelection', () => {
+        this.isDrop = false
+      })
     }
   }
 </script>
